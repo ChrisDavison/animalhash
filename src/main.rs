@@ -1,54 +1,25 @@
 use rand::random;
-use std::env::args;
-use std::process::exit;
 
-const USAGE: &'static str = r##"animalhash
+use structopt::StructOpt;
 
-Generate a docker-esque adjective-colour-animal keyword.
-
-Usage:
-    animalhash [OPTIONS]
-
-Options:
-    -l --lowercase   Don't semi-titlecase the output
-    --no-colour      Don't use a colour
-    --no-adjective   Don't use an adjective
-    --no-animal      Don't use an animal
-"##;
-
+#[derive(Debug,StructOpt)]
+#[structopt(name="animalhash", about="Generate docker-esque keyword")]
 struct Opts {
-    use_titlecase: bool,
-    no_colour: bool,
-    no_adjective: bool,
-    no_animal: bool,
-}
+    /// Use semi-titlecase (i.e. capitalise on word boundaries)
+    #[structopt(short,long)]
+    titlecase: bool,
 
-impl Opts {
-    fn from_args() -> Result<Opts, Box<dyn std::error::Error>> {
-        let use_titlecase = args()
-            .filter(|x| x == "-l" || x == "--lowercase")
-            .collect::<String>().is_empty();
-        let no_colour = !args()
-            .filter(|x| x == "--no-colour")
-            .collect::<String>().is_empty();
-        let no_adjective = !args()
-            .filter(|x| x == "--no-adjective")
-            .collect::<String>().is_empty();
-        let no_animal = !args()
-            .filter(|x| x == "--no-animal")
-            .collect::<String>().is_empty();
-        let help = !args()
-            .filter(|x| x == "-h" || x == "--help")
-            .collect::<String>().is_empty();
-        if help {
-            println!("{}", USAGE);
-            exit(1);
-        }
-        if no_colour && no_adjective && no_animal {
-            return Err("Must have at least one of: colour, adjective, animal".into());
-        }
-        Ok(Opts{use_titlecase, no_colour, no_adjective, no_animal})
-    }
+    /// Don't include a colour in the keyword
+    #[structopt(long)]
+    no_colour: bool,
+
+    /// Don't include an adjective in the keyword
+    #[structopt(long)]
+    no_adjective: bool,
+
+    /// Don't include an animal in the keyword
+    #[structopt(long)]
+    no_animal: bool,
 }
 
 fn title_case(word: &str) -> String {
@@ -63,7 +34,7 @@ fn rand_line_from_string(string: &str) -> String {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let opts = Opts::from_args()?;
+    let opts = Opts::from_args();
     let animals = include_str!("../words/animals.txt");
     let adjectives = include_str!("../words/adjectives.txt");
     let colours = include_str!("../words/colours.txt");
@@ -81,11 +52,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         outparts.push(rand_line_from_string(animals));
     }
 
-    if opts.use_titlecase {
-        for (i, elem) in outparts.iter_mut().enumerate() {
-            if i > 0 {
-                *elem = title_case(elem);
-            }
+    if opts.titlecase {
+        for elem in outparts.iter_mut().skip(1) {
+            *elem = title_case(elem);
         }
     }
 
