@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "animalhash"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "rand 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",

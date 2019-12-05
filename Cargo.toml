@@ -1,9 +1,9 @@
 [package]
 name = "animalhash"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Chris Davison <c.jr.davison@gmail.com>"]
 edition = "2018"
-license = "MIT"
+license = "GPL-3.0-only"
 description = """Generate a docker-esque animal-colour-adjective. Can optionally disable the 'animal', 'adjective', and 'colour' portions, as well as semi-titlecase the result. Examples :: 'smalltealtortoise'; 'affectionateMagentaPuffin'; 'bigred'; 'redoctopus'; 'reverantmeadowlark'."""
 repository = "https://www.github.com/chrisdavison/animalhash"
 
