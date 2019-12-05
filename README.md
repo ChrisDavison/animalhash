@@ -2,6 +2,17 @@
 
 Generate a docker-esque adjective-colour-animal keyword.
 
+Can optionally disable the 'animal', 'adjective', and 'colour' portions, as well
+as semi-titlecase the result.
+
+Examples:
+
+    animalhash => smalltealtortoise
+    animalhash -t => affectionateMagentaPuffin
+    animalhash --no-animal => bigred
+    animalhash --no-adjective => redoctopus
+    animalhash --no-colou => reverantmeadowlark
+
 ## Usage
 
     animalhash [OPTIONS]

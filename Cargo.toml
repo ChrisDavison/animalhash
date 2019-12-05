@@ -4,7 +4,17 @@ version = "0.2.0"
 authors = ["Chris Davison <c.jr.davison@gmail.com>"]
 edition = "2018"
 license = "MIT"
-description = "Generate a docker-esque animal-colour-adjective"
+description = """Generate a docker-esque animal-colour-adjective
+
+Can optionally disable the 'animal', 'adjective', and 'colour' portions, as well as semi-titlecase the result.
+
+Examples:
+    animalhash => smalltealtortoise
+    animalhash -t => affectionateMagentaPuffin
+    animalhash --no-animal => bigred
+    animalhash --no-adjective => redoctopus
+    animalhash --no-colou => reverantmeadowlark
+"""
 repository = "https://www.github.com/chrisdavison/animalhash"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
