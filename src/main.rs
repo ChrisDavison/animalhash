@@ -2,11 +2,11 @@ use rand::random;
 
 use structopt::StructOpt;
 
-#[derive(Debug,StructOpt)]
-#[structopt(name="animalhash", about="Generate docker-esque keyword")]
+#[derive(Debug, StructOpt)]
+#[structopt(name = "animalhash", about = "Generate docker-esque keyword")]
 struct Opts {
     /// Use semi-titlecase (i.e. capitalise on word boundaries)
-    #[structopt(short,long)]
+    #[structopt(short, long)]
     titlecase: bool,
 
     /// Don't include a colour in the keyword
@@ -30,7 +30,7 @@ fn title_case(word: &str) -> String {
 
 fn rand_line_from_string(string: &str) -> String {
     let lines: Vec<&str> = string.split('\n').collect();
-    lines[random::<usize>() % lines.len()].into()
+    lines[random::<usize>() % lines.len()].trim().into()
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -57,6 +57,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             *elem = title_case(elem);
         }
     }
+    println!("{:?}", outparts);
 
     let outstr = outparts.join("");
 
