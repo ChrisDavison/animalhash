@@ -57,8 +57,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             *elem = title_case(elem);
         }
     }
-    println!("{:?}", outparts);
-
     let outstr = outparts.join("");
 
     println!("{}", outstr);
