@@ -33,7 +33,7 @@ fn rand_line_from_string(string: &str) -> String {
     lines[random::<usize>() % lines.len()].trim().into()
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     let opts = Opts::from_args();
     let animals = include_str!("../words/animals.txt");
     let adjectives = include_str!("../words/adjectives.txt");
@@ -60,5 +60,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let outstr = outparts.join("");
 
     println!("{}", outstr);
-    Ok(())
 }
