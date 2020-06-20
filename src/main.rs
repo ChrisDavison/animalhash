@@ -1,26 +1,15 @@
 use rand::random;
+use std::env;
 
-use structopt::StructOpt;
+const USAGE: &str = "usage: animalhash [options]
 
-#[derive(Debug, StructOpt)]
-#[structopt(name = "animalhash", about = "Generate docker-esque keyword")]
-struct Opts {
-    /// Use semi-titlecase (i.e. capitalise on word boundaries)
-    #[structopt(short, long)]
-    titlecase: bool,
+Options:
+    --no-adjective     Don't include adjective
+    --no-animal        Don't include animal
+    --no-colour        Don't include colour
+    -t --titlecase     Titlecase after the first word
 
-    /// Don't include a colour in the keyword
-    #[structopt(long)]
-    no_colour: bool,
-
-    /// Don't include an adjective in the keyword
-    #[structopt(long)]
-    no_adjective: bool,
-
-    /// Don't include an animal in the keyword
-    #[structopt(long)]
-    no_animal: bool,
-}
+    -h --help          Show this message";
 
 fn title_case(word: &str) -> String {
     let lower = word.to_lowercase();
@@ -34,25 +23,32 @@ fn rand_line_from_string(string: &str) -> String {
 }
 
 fn main() {
-    let opts = Opts::from_args();
+    let args: Vec<String> = env::args().skip(1).collect();
+        let help = args.contains(&"--help".to_string()) || args.contains(&"-h".to_string());
+    if help {
+        println!("{}", USAGE);
+        std::process::exit(1);
+    }
+
     let animals = include_str!("../words/animals.txt");
     let adjectives = include_str!("../words/adjectives.txt");
     let colours = include_str!("../words/colours.txt");
 
-    let mut outparts = Vec::new();
-    if !opts.no_adjective {
+    let mut outparts: Vec<String> = Vec::new();
+    if !args.contains(&"--no-adjective".to_string()) {
         outparts.push(rand_line_from_string(adjectives));
     }
 
-    if !opts.no_colour {
+    if !args.contains(&"--no-colour".to_string()) {
         outparts.push(rand_line_from_string(colours));
     }
 
-    if !opts.no_animal {
+
+    if !args.contains(&"--no-animal".to_string()) {
         outparts.push(rand_line_from_string(animals));
     }
 
-    if opts.titlecase {
+    if args.contains(&"--titlecase".to_string()) || args.contains(&"-t".to_string()) {
         for elem in outparts.iter_mut().skip(1) {
             *elem = title_case(elem);
         }
