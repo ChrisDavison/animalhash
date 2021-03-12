@@ -1,5 +1,7 @@
 # animalhash
 
+[![Rust](https://github.com/ChrisDavison/animalhash/actions/workflows/rust.yml/badge.svg)](https://github.com/ChrisDavison/animalhash/actions/workflows/rust.yml)
+
 Generate a docker-esque adjective-colour-animal keyword.
 
 Can optionally disable the 'animal', 'adjective', and 'colour' portions, as well
