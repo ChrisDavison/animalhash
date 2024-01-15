@@ -7,6 +7,7 @@ Options:
     --no-adjective     Don't include adjective
     --no-animal        Don't include animal
     --no-colour        Don't include colour
+    --kebabcase        Separate words by hyphen
     -t --titlecase     Titlecase after the first word
 
     -h --help          Show this message";
@@ -24,7 +25,7 @@ fn rand_line_from_string(string: &str) -> String {
 
 fn main() {
     let args: Vec<String> = env::args().skip(1).collect();
-        let help = args.contains(&"--help".to_string()) || args.contains(&"-h".to_string());
+    let help = args.contains(&"--help".to_string()) || args.contains(&"-h".to_string());
     if help {
         println!("{}", USAGE);
         std::process::exit(1);
@@ -43,17 +44,21 @@ fn main() {
         outparts.push(rand_line_from_string(colours));
     }
 
-
     if !args.contains(&"--no-animal".to_string()) {
         outparts.push(rand_line_from_string(animals));
     }
 
     if args.contains(&"--titlecase".to_string()) || args.contains(&"-t".to_string()) {
-        for elem in outparts.iter_mut().skip(1) {
+        for elem in outparts.iter_mut() {
             *elem = title_case(elem);
         }
     }
-    let outstr = outparts.join("");
+    let joiner = if args.contains(&"--kebabcase".to_string()) || args.contains(&"-k".to_string()) {
+        "-"
+    } else {
+        ""
+    };
+    let outstr = outparts.join(joiner);
 
     println!("{}", outstr);
 }
