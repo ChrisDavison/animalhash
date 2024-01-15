@@ -1,5 +1,4 @@
 use rand::random;
-use std::env;
 
 const USAGE: &str = "usage: animalhash [options]
 
@@ -7,8 +6,8 @@ Options:
     --no-adjective     Don't include adjective
     --no-animal        Don't include animal
     --no-colour        Don't include colour
-    --kebabcase        Separate words by hyphen
-    -t --titlecase     Titlecase after the first word
+    --camelcase        Use camelcase instead of kebabcase
+    --pascalcase       Use pascalcase instead of kebabcase (capitalise every word)
 
     -h --help          Show this message";
 
@@ -24,9 +23,9 @@ fn rand_line_from_string(string: &str) -> String {
 }
 
 fn main() {
-    let args: Vec<String> = env::args().skip(1).collect();
-    let help = args.contains(&"--help".to_string()) || args.contains(&"-h".to_string());
-    if help {
+    let mut pargs = pico_args::Arguments::from_env();
+
+    if pargs.contains("--help") || pargs.contains("-h") {
         println!("{}", USAGE);
         std::process::exit(1);
     }
@@ -36,28 +35,27 @@ fn main() {
     let colours = include_str!("../words/colours.txt");
 
     let mut outparts: Vec<String> = Vec::new();
-    if !args.contains(&"--no-adjective".to_string()) {
+    if !pargs.contains("--no-adjective") {
         outparts.push(rand_line_from_string(adjectives));
     }
 
-    if !args.contains(&"--no-colour".to_string()) {
+    if !pargs.contains("--no-colour") {
         outparts.push(rand_line_from_string(colours));
     }
 
-    if !args.contains(&"--no-animal".to_string()) {
+    if !pargs.contains("--no-animal") {
         outparts.push(rand_line_from_string(animals));
     }
+    let mut joiner = "-";
 
-    if args.contains(&"--titlecase".to_string()) || args.contains(&"-t".to_string()) {
-        for elem in outparts.iter_mut() {
+    let pascal = pargs.contains("--pascalcase") || pargs.contains("-p");
+    let camel = pargs.contains("--camelcase") || pargs.contains("-c");
+    if camel || pascal {
+        for elem in outparts.iter_mut().skip(if pascal { 0 } else { 1 }) {
             *elem = title_case(elem);
         }
+        joiner = "";
     }
-    let joiner = if args.contains(&"--kebabcase".to_string()) || args.contains(&"-k".to_string()) {
-        "-"
-    } else {
-        ""
-    };
     let outstr = outparts.join(joiner);
 
     println!("{}", outstr);

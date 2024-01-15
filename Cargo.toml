@@ -11,3 +11,4 @@ repository = "https://www.github.com/chrisdavison/animalhash"
 
 [dependencies]
 rand = "0.7"
+pico-args = "0.4.2"

@@ -6,6 +6,7 @@ version = 3
 name = "animalhash"
 version = "0.5.0"
 dependencies = [
+ "pico-args",
  "rand",
 ]
 
@@ -40,6 +41,12 @@ name = "libc"
 version = "0.2.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a31a0627fdf1f6a39ec0dd577e101440b7db22672c0901fe00a9a6fbb5c24e8"
+
+[[package]]
+name = "pico-args"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db8bcd96cb740d03149cbad5518db9fd87126a10ab519c011893b1754134c468"
 
 [[package]]
 name = "ppv-lite86"
